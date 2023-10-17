@@ -151,4 +151,22 @@ contract MinHub is ERC721Enumerable, Ownable {
     function setTotalSupply(uint256 _maxSupply) public onlyOwner {
         maxSupply = _maxSupply;
     }
+
+    function setRoyalty(
+        address _creator,
+        uint256 _royaltyPercentage
+    ) public onlyOwner {
+        require(
+            _royaltyPercentage <= 100,
+            "Royalty percentage cannot exceed 100"
+        );
+        royalties[_creator] = _royaltyPercentage;
+    }
+
+    function withdraw() public payable onlyOwner {
+        (bool success, ) = payable(msg.sender).call{
+            value: address(this).balance
+        }("");
+        require(success);
+    }
 }

@@ -1,0 +1,83 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract MinHub is ERC721Enumerable, Ownable {
+    using Strings for uint256;
+
+    string public baseURI;
+    string public baseExtension = ".json";
+    string public notRevealedUri;
+
+    uint256 feeAmount;
+    uint256 public cost = .05 ether;
+    uint256 public maxSupply;
+    uint256 public maxMintAmount;
+    uint256 public nftPerAddressLimit;
+
+    bool public revealed = false;
+
+    address feeToken;
+    address artist;
+    mapping(address => uint256) public royalties;
+
+    constructor(
+        string memory _name,
+        string memory _symbol,
+        string memory _initBaseURI,
+        string memory _initNotRevealedUri,
+        uint256 _maxSupply,
+        uint256 _maxMintAmount,
+        uint256 _nftPerAddressLimit,
+        address[] memory _creators,
+        uint256[] memory _royaltyPercentages
+    ) ERC721(_name, _symbol) {
+        setBaseURI(_initBaseURI);
+        setNotRevealedURI(_initNotRevealedUri);
+        maxSupply = _maxSupply;
+        maxMintAmount = _maxMintAmount;
+        nftPerAddressLimit = _nftPerAddressLimit;
+
+        require(
+            _creators.length == _royaltyPercentages.length,
+            "Mismatch between creators and royalty percentages"
+        );
+
+        for (uint256 i = 0; i < _creators.length; i++) {
+            require(
+                _royaltyPercentages[i] <= 100,
+                "Royalty percentage cannot exceed 100"
+            );
+            royalties[_creators[i]] = _royaltyPercentages[i];
+        }
+    }
+
+    function _baseURI() internal view virtual override returns (string memory) {
+        return baseURI;
+    }
+
+    function mint(uint256 _mintAmount) public payable {
+        uint256 supply = totalSupply();
+        require(_mintAmount > 0, "need to mint at least 1 NFT");
+        require(
+            _mintAmount <= maxMintAmount,
+            "max mint amount per session exceeded"
+        );
+        require(supply + _mintAmount <= maxSupply, "max NFT limit exceeded");
+
+        if (msg.sender != owner()) {
+            uint256 ownerTokenCount = balanceOf(msg.sender);
+            require(
+                ownerTokenCount + _mintAmount <= nftPerAddressLimit,
+                "max NFT per address exceeded"
+            );
+            require(msg.value >= cost * _mintAmount, "insufficient funds");
+        }
+
+        for (uint256 i = 1; i <= _mintAmount; i++) {
+            _safeMint(msg.sender, supply + i);
+        }
+    }
+}

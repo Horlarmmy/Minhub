@@ -133,4 +133,22 @@ contract MinHub is ERC721Enumerable, Ownable {
     function setmaxMintAmount(uint256 _newmaxMintAmount) public onlyOwner {
         maxMintAmount = _newmaxMintAmount;
     }
+
+    function setBaseURI(string memory _newBaseURI) public onlyOwner {
+        baseURI = _newBaseURI;
+    }
+
+    function setBaseExtension(
+        string memory _newBaseExtension
+    ) public onlyOwner {
+        baseExtension = _newBaseExtension;
+    }
+
+    function setNotRevealedURI(string memory _notRevealedURI) public onlyOwner {
+        notRevealedUri = _notRevealedURI;
+    }
+
+    function setTotalSupply(uint256 _maxSupply) public onlyOwner {
+        maxSupply = _maxSupply;
+    }
 }

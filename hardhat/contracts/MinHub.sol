@@ -116,4 +116,21 @@ contract MinHub is ERC721Enumerable, Ownable {
                 )
                 : "";
     }
+
+    // Only Owner
+    function reveal() public onlyOwner {
+        revealed = true;
+    }
+
+    function setNftPerAddressLimit(uint256 _limit) public onlyOwner {
+        nftPerAddressLimit = _limit;
+    }
+
+    function setCost(uint256 _newCost) public onlyOwner {
+        cost = _newCost;
+    }
+
+    function setmaxMintAmount(uint256 _newmaxMintAmount) public onlyOwner {
+        maxMintAmount = _newmaxMintAmount;
+    }
 }

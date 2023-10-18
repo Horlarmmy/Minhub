@@ -39,12 +39,13 @@ export interface MinHubInterface extends utils.Interface {
     "isApprovedForAll(address,address)": FunctionFragment;
     "maxMintAmount()": FunctionFragment;
     "maxSupply()": FunctionFragment;
-    "mint(uint256)": FunctionFragment;
+    "mint(uint64,address,uint8,uint256)": FunctionFragment;
     "name()": FunctionFragment;
     "nftPerAddressLimit()": FunctionFragment;
     "notRevealedUri()": FunctionFragment;
     "owner()": FunctionFragment;
     "ownerOf(uint256)": FunctionFragment;
+    "purchaseWithLink(uint256)": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "reveal()": FunctionFragment;
     "revealed()": FunctionFragment;
@@ -89,6 +90,7 @@ export interface MinHubInterface extends utils.Interface {
       | "notRevealedUri"
       | "owner"
       | "ownerOf"
+      | "purchaseWithLink"
       | "renounceOwnership"
       | "reveal"
       | "revealed"
@@ -145,7 +147,12 @@ export interface MinHubInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "maxSupply", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "mint",
-    values: [PromiseOrValue<BigNumberish>]
+    values: [
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<string>,
+      PromiseOrValue<BigNumberish>,
+      PromiseOrValue<BigNumberish>
+    ]
   ): string;
   encodeFunctionData(functionFragment: "name", values?: undefined): string;
   encodeFunctionData(
@@ -159,6 +166,10 @@ export interface MinHubInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "ownerOf",
+    values: [PromiseOrValue<BigNumberish>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "purchaseWithLink",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
   encodeFunctionData(
@@ -297,6 +308,10 @@ export interface MinHubInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "purchaseWithLink",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
   ): Result;
@@ -373,12 +388,14 @@ export interface MinHubInterface extends utils.Interface {
   events: {
     "Approval(address,address,uint256)": EventFragment;
     "ApprovalForAll(address,address,bool)": EventFragment;
+    "MessageSent(bytes32)": EventFragment;
     "OwnershipTransferred(address,address)": EventFragment;
     "Transfer(address,address,uint256)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Approval"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "ApprovalForAll"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "MessageSent"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
   getEvent(nameOrSignatureOrTopic: "Transfer"): EventFragment;
 }
@@ -406,6 +423,13 @@ export type ApprovalForAllEvent = TypedEvent<
 >;
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
+
+export interface MessageSentEventObject {
+  messageId: string;
+}
+export type MessageSentEvent = TypedEvent<[string], MessageSentEventObject>;
+
+export type MessageSentEventFilter = TypedEventFilter<MessageSentEvent>;
 
 export interface OwnershipTransferredEventObject {
   previousOwner: string;
@@ -491,6 +515,9 @@ export interface MinHub extends BaseContract {
     maxSupply(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     mint(
+      destinationChainSelector: PromiseOrValue<BigNumberish>,
+      receiver: PromiseOrValue<string>,
+      payFeesIn: PromiseOrValue<BigNumberish>,
       _mintAmount: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
@@ -507,6 +534,11 @@ export interface MinHub extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<[string]>;
+
+    purchaseWithLink(
+      _mintAmount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
+    ): Promise<ContractTransaction>;
 
     renounceOwnership(
       overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -665,6 +697,9 @@ export interface MinHub extends BaseContract {
   maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
   mint(
+    destinationChainSelector: PromiseOrValue<BigNumberish>,
+    receiver: PromiseOrValue<string>,
+    payFeesIn: PromiseOrValue<BigNumberish>,
     _mintAmount: PromiseOrValue<BigNumberish>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
@@ -681,6 +716,11 @@ export interface MinHub extends BaseContract {
     tokenId: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
   ): Promise<string>;
+
+  purchaseWithLink(
+    _mintAmount: PromiseOrValue<BigNumberish>,
+    overrides?: Overrides & { from?: PromiseOrValue<string> }
+  ): Promise<ContractTransaction>;
 
   renounceOwnership(
     overrides?: Overrides & { from?: PromiseOrValue<string> }
@@ -839,6 +879,9 @@ export interface MinHub extends BaseContract {
     maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
+      destinationChainSelector: PromiseOrValue<BigNumberish>,
+      receiver: PromiseOrValue<string>,
+      payFeesIn: PromiseOrValue<BigNumberish>,
       _mintAmount: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<void>;
@@ -855,6 +898,11 @@ export interface MinHub extends BaseContract {
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    purchaseWithLink(
+      _mintAmount: PromiseOrValue<BigNumberish>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
@@ -997,6 +1045,9 @@ export interface MinHub extends BaseContract {
       approved?: null
     ): ApprovalForAllEventFilter;
 
+    "MessageSent(bytes32)"(messageId?: null): MessageSentEventFilter;
+    MessageSent(messageId?: null): MessageSentEventFilter;
+
     "OwnershipTransferred(address,address)"(
       previousOwner?: PromiseOrValue<string> | null,
       newOwner?: PromiseOrValue<string> | null
@@ -1052,6 +1103,9 @@ export interface MinHub extends BaseContract {
     maxSupply(overrides?: CallOverrides): Promise<BigNumber>;
 
     mint(
+      destinationChainSelector: PromiseOrValue<BigNumberish>,
+      receiver: PromiseOrValue<string>,
+      payFeesIn: PromiseOrValue<BigNumberish>,
       _mintAmount: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
@@ -1067,6 +1121,11 @@ export interface MinHub extends BaseContract {
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<BigNumber>;
+
+    purchaseWithLink(
+      _mintAmount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
     renounceOwnership(
@@ -1227,6 +1286,9 @@ export interface MinHub extends BaseContract {
     maxSupply(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     mint(
+      destinationChainSelector: PromiseOrValue<BigNumberish>,
+      receiver: PromiseOrValue<string>,
+      payFeesIn: PromiseOrValue<BigNumberish>,
       _mintAmount: PromiseOrValue<BigNumberish>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
@@ -1244,6 +1306,11 @@ export interface MinHub extends BaseContract {
     ownerOf(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
+    ): Promise<PopulatedTransaction>;
+
+    purchaseWithLink(
+      _mintAmount: PromiseOrValue<BigNumberish>,
+      overrides?: Overrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 
     renounceOwnership(

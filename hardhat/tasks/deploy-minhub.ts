@@ -1,6 +1,6 @@
 import { task } from "hardhat/config";
 import { HardhatRuntimeEnvironment, TaskArguments } from "hardhat/types";
-import { getPrivateKey, getProviderRpcUrl } from "./utils";
+import { getPrivateKey, getProviderRpcUrl, getRouterConfig } from "./utils";
 import { Wallet, providers } from "ethers";
 import {
   MinHub,
@@ -9,6 +9,7 @@ import {
   MinHub_extender__factory,
 } from "../typechain-types";
 import { Spinner } from "../utils/spinner";
+import { LINK_ADDRESSES } from "./constants";
 
 task(`deploy-minhub`, `Deploys MinHub.sol and MinHub_extender.sol contracts`)
   .addOptionalParam(`baseURI`, `Base URI for token metadata`)
@@ -18,6 +19,13 @@ task(`deploy-minhub`, `Deploys MinHub.sol and MinHub_extender.sol contracts`)
   .addOptionalParam(`nftPerAddressLimit`, `Maximum NFTs per address`)
   .setAction(
     async (taskArguments: TaskArguments, hre: HardhatRuntimeEnvironment) => {
+      const routerAddress = taskArguments.router
+        ? taskArguments.router
+        : getRouterConfig(hre.network.name).address;
+      const linkAddress = taskArguments.link
+        ? taskArguments.link
+        : LINK_ADDRESSES[hre.network.name];
+
       const privateKey = getPrivateKey();
       const rpcProviderUrl = getProviderRpcUrl(hre.network.name);
 
@@ -25,10 +33,6 @@ task(`deploy-minhub`, `Deploys MinHub.sol and MinHub_extender.sol contracts`)
       const wallet = new Wallet(privateKey);
       const deployer = wallet.connect(provider);
 
-      const creators = [
-        "0x5B38Da6a701c568545dCfcB03FcB875f56beddC4",
-        "0xAb8483F64d9C6d1EcF9b849Ae677dD3315835cb2",
-      ];
       const royalties = ["20", "50"];
 
       const spinner: Spinner = new Spinner();
@@ -48,7 +52,8 @@ task(`deploy-minhub`, `Deploys MinHub.sol and MinHub_extender.sol contracts`)
         parseInt(taskArguments.maxSupply) || 10000,
         parseInt(taskArguments.maxMintAmount) || 5,
         parseInt(taskArguments.nftPerAddressLimit) || 10,
-        creators,
+        routerAddress,
+        linkAddress,
         royalties
       );
       await minHub.deployed();

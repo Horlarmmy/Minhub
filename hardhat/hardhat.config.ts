@@ -14,7 +14,7 @@ const AVALANCHE_FUJI_RPC_URL = process.env.AVALANCHE_FUJI_RPC_URL;
 
 const config: HardhatUserConfig = {
   solidity: {
-    compilers: [/*{ version: "0.8.20" }, */ { version: "0.8.19" }],
+    compilers: [{ version: "0.8.19" }],
     settings: {
       optimizer: {
         enabled: true,

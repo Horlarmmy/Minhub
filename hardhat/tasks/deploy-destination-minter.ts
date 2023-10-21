@@ -53,7 +53,7 @@ task(
         taskArguments.name || "MinHub",
         taskArguments.Symbol || "MHUB",
         taskArguments.baseURI ||
-          "https://ipfs.io/ipfs://bafyreieuruoynt4zlcjlhzljqlnuxei6y3xoxcwpche2kvgvvz33a7nj2a/metadata.json",
+          "https://gateway.pinata.cloud/ipfs/QmYdWxbiwsfsYcW1CYQPgYujAc9FMLPG3fgFcxFskbSsFa",
         taskArguments.notRevealedURI || "",
         parseInt(taskArguments.maxSupply) || 10000,
         parseInt(taskArguments.maxMintAmount) || 5,

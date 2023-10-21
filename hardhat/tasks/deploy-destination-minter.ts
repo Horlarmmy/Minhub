@@ -59,7 +59,9 @@ task(
         parseInt(taskArguments.maxMintAmount) || 5,
         parseInt(taskArguments.nftPerAddressLimit) || 10,
         creators,
-        royalties
+        royalties,
+        taskArguments.linkAddress,
+        taskArguments.wrappedAddress
       );
       await Minhub.deployed();
 

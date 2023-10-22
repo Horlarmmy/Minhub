@@ -95,7 +95,6 @@ event - compiled successfully
 ## 🙍‍♂️ Team Members
 
 <li>Abdulazeez Salihu (Backend Developer)</li>
-<li>Ibisomi Teslim (Frontend Developer)</li>
 <li>Alade Toheeb (Backend Developer)</li>
 <br>
 
@@ -105,7 +104,7 @@ event - compiled successfully
 <li>NFT Teleport (NFT Bridge)</li>
 <br>
  
-## 🔗 Presentation
+## 🔗 Contract Address
 
-<li><a href="https://youtu.be/rdgyfWiYhTg">Youtube Video</a></li>
+<li><a href=https://sepolia.scrollscan.dev/address/0x1f8854185f46b643544f0dca3355cc30212ec48e>Scroll Scan</a></li>
 <br>

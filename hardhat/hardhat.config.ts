@@ -11,6 +11,10 @@ const POLYGON_MUMBAI_RPC_URL = process.env.POLYGON_MUMBAI_RPC_URL;
 const OPTIMISM_GOERLI_RPC_URL = process.env.OPTIMISM_GOERLI_RPC_URL;
 const ARBITRUM_TESTNET_RPC_URL = process.env.ARBITRUM_TESTNET_RPC_URL;
 const AVALANCHE_FUJI_RPC_URL = process.env.AVALANCHE_FUJI_RPC_URL;
+const SCROLL_SEPOLIA_RPC_URL = process.env.SCROLL_SEPOLIA_RPC_URL;
+const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || "";
+const POLYGONSCAN_API_KEY = process.env.POLYGONSCAN_API_KEY;
+const SCROLLSCAN_API_KEY = process.env.SCROLLSCAN_API_KEY;
 
 const config: HardhatUserConfig = {
   solidity: {
@@ -53,6 +57,28 @@ const config: HardhatUserConfig = {
       accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
       chainId: 43113,
     },
+    scrollSepolia: {
+      url: SCROLL_SEPOLIA_RPC_URL !== undefined ? SCROLL_SEPOLIA_RPC_URL : "",
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      chainId: 534351,
+    },
+  },
+  etherscan: {
+    apiKey: {
+      scrollSepolia: SCROLLSCAN_API_KEY,
+      polygonMumbai: POLYGONSCAN_API_KEY,
+      sepolia: ETHERSCAN_API_KEY,
+    },
+    // customChains: [
+    //   {
+    //     network: "scrollSepolia",
+    //     chainId: 534351,
+    //     urls: {
+    //       apiURL: "https://sepolia-blockscout.scroll.io/api",
+    //       browserURL: "https://sepolia-blockscout.scroll.io/",
+    //     },
+    //   },
+    // ],
   },
 };
 

@@ -2,6 +2,8 @@ import { task } from "hardhat/config";
 import { HardhatRuntimeEnvironment, TaskArguments } from "hardhat/types";
 import { getPrivateKey, getProviderRpcUrl, getRouterConfig } from "./utils";
 import { Wallet, providers } from "ethers";
+import verify from "../helper-functions";
+import { networkConfig, developmentChains } from "../helper-hardhat-config";
 import {
   MinHub,
   MinHub__factory,
@@ -9,7 +11,6 @@ import {
   MinHub_extender__factory,
 } from "../typechain-types";
 import { Spinner } from "../utils/spinner";
-import { LINK_ADDRESSES } from "./constants";
 
 task(`deploy-minhub`, `Deploys MinHub.sol and MinHub_extender.sol contracts`)
   .addOptionalParam(`baseURI`, `Base URI for token metadata`)
@@ -19,13 +20,6 @@ task(`deploy-minhub`, `Deploys MinHub.sol and MinHub_extender.sol contracts`)
   .addOptionalParam(`nftPerAddressLimit`, `Maximum NFTs per address`)
   .setAction(
     async (taskArguments: TaskArguments, hre: HardhatRuntimeEnvironment) => {
-      const routerAddress = taskArguments.router
-        ? taskArguments.router
-        : getRouterConfig(hre.network.name).address;
-      const linkAddress = taskArguments.link
-        ? taskArguments.link
-        : LINK_ADDRESSES[hre.network.name];
-
       const privateKey = getPrivateKey();
       const rpcProviderUrl = getProviderRpcUrl(hre.network.name);
 
@@ -52,8 +46,7 @@ task(`deploy-minhub`, `Deploys MinHub.sol and MinHub_extender.sol contracts`)
         parseInt(taskArguments.maxSupply) || 10000,
         parseInt(taskArguments.maxMintAmount) || 5,
         parseInt(taskArguments.nftPerAddressLimit) || 10,
-        routerAddress,
-        linkAddress,
+
         royalties
       );
       await minHub.deployed();

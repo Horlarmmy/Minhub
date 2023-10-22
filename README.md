@@ -94,7 +94,7 @@ event - compiled successfully
 
 ## 🙍‍♂️ Team Members
 
-<li>Abdulazeez Salihu (Backend Developer)</li>
+<li>Abdulazeez Salihu (Blockchain Developer)</li>
 <li>Alade Toheeb (Backend Developer)</li>
 <br>
 

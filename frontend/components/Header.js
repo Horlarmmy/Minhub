@@ -14,10 +14,11 @@ import Link from "next/link";
 import logo from "../pages/getstarted/images/minhub.png";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import myImage from "../pages/getstarted/images/blocks.gif";
 
 const features = [
   {
-    name: "Sepolia Blockchain",
+    name: "Scroll Blockchain",
     description:
       "One of the leading blockchains High efficiency along with low commissions.",
     icon: GlobeAltIcon,
@@ -105,7 +106,7 @@ export default function Header() {
         </div>
       </nav>
 
-        <div className="absolute top-0 h-full w-full bg-[url('https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80')] bg-cover bg-center" />
+        <div className="absolute top-0 h-full w-full bg-[url('https://bafybeih6zqkkml5z5t56igqbfcvgy6tuajixi5l6tgxedpkn5jrynxwvpy.ipfs.nftstorage.link/')] bg-cover bg-center" />
         <div className="absolute top-0 h-full w-full bg-black/75 bg-cover bg-center" />
         <div className="max-w-8xl container relative mx-auto">
           <div className="flex flex-wrap items-center">
@@ -120,7 +121,7 @@ export default function Header() {
             </motion.h1>
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-white">
               MinHub is a one-stop service for all NFT creators. MinHub allows
-              you to generate and deploy a ERC-721 contract on the
+              you to generate and deploy a ERC-721 contract on the Scroll
               blockchain with any information and features. After the
               deployment, you can use mint button for integration, with which
               anyone can mint your NFT collection.
@@ -146,7 +147,7 @@ export default function Header() {
               </a>
             </div>
           </div>
-
+          <hr className="mx-auto mt-20" />
           <div className="mt-20 ">
             <div className="grid grid-cols-1 gap-y-16 md:grid-cols-2 lg:grid-cols-3 md:gap-x-12 md:gap-y-16">
               {features.map((feature) => (

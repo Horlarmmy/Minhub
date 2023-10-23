@@ -2,7 +2,7 @@
 
 <br>
 
-## 🤔 What is the `MinHub`?
+## What is the `MinHub`?🤔
 
 MinHub is a one-stop service for all NFT creators. MinHub allows you to generate and deploy a ERC721 contract on the Scroll blockchain with any information and features. After the deployment, you can use mint button for integration, with which anyone can mint your NFT collection.
 

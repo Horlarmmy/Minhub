@@ -104,7 +104,9 @@ event - compiled successfully
 <li>NFT Teleport (NFT Bridge)</li>
 <br>
  
-## 🔗 Contract Address
+## 🔗 Verified Contract Addresses
 
 <li><a href=https://sepolia.scrollscan.dev/address/0x1f8854185f46b643544f0dca3355cc30212ec48e>Scroll Scan</a></li>
+<li><a href=https://sepolia-blockscout.scroll.io/address/0xf4ccA5225578f4412C3E21d7cE75413F1C78115F/contracts#address-tabs>Minhub (Blockscout Explorer)</a></li>
+<li><a href=https://sepolia-blockscout.scroll.io/address/0x1f8854185f46B643544f0dCA3355Cc30212Ec48E/contracts#address-tabs>Minhub_extender (Blockscout Explorer)</a></li>
 <br>

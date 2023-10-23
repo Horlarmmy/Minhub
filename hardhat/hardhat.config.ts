@@ -69,16 +69,16 @@ const config: HardhatUserConfig = {
       polygonMumbai: POLYGONSCAN_API_KEY,
       sepolia: ETHERSCAN_API_KEY,
     },
-    // customChains: [
-    //   {
-    //     network: "scrollSepolia",
-    //     chainId: 534351,
-    //     urls: {
-    //       apiURL: "https://sepolia-blockscout.scroll.io/api",
-    //       browserURL: "https://sepolia-blockscout.scroll.io/",
-    //     },
-    //   },
-    // ],
+    customChains: [
+      {
+        network: "scrollSepolia",
+        chainId: 534351,
+        urls: {
+          apiURL: "https://sepolia-blockscout.scroll.io/api",
+          browserURL: "https://sepolia-blockscout.scroll.io/",
+        },
+      },
+    ],
   },
 };
 

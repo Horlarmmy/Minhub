@@ -91,13 +91,6 @@ event - compiled successfully
 <br>
 
 <br>
-
-## 🙍‍♂️ Team Members
-
-<li>Abdulazeez Salihu (Blockchain Developer)</li>
-<li>Alade Toheeb (Backend Developer)</li>
-<br>
-
 ## 🔜 Upcoming Features
 
 <li>Nft Marketplace</li>

@@ -453,21 +453,21 @@ export function Step5({ setCurrentStep, nftAddress, formik }) {
       <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-2 gap-4">
         <div className="mb-4 mt-11  ">
           <p className="text-sm text-slate-400 my-2 text-center">
-            Your contract on Fantom Scan
+            Your contract on Scroll Scan
           </p>
           <div className="text-center flex items-center justify-center">
             <Link
-              href={`https://testnet.ftmscan.com/address/${nftAddress}`}
+              href={`https://sepolia.scrollscan.dev/address/${nftAddress}`}
               passHref
               legacyBehavior
             >
               <a
                 target="_blank"
-                href={`https://testnet.ftmscan.com/address/${nftAddress}`}
+                href={`https://sepolia.scrollscan.dev/address/${nftAddress}`}
                 className="shadow-md active:bg-white active:text-gray-800 hover:bg-slate-200 hover:text-slate-400 appearance-none border w-96 ml-9 mt-4 rounded py-3 px-3 font-semibold text-slate-200 leading-tight  hover:shadow-outline active:shadow-lg"
                 disabled={formik.isSubmitting}
               >
-                Fantom Scan
+                Scroll Scan
               </a>
             </Link>
           </div>

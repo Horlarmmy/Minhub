@@ -2,6 +2,7 @@ import Link from "next/link";
 import pinata from "../pages/getstarted/images/pinata.png";
 import NFTstorage from "../pages/getstarted/images/NFTstorage.png";
 import Image from "next/image";
+import { viewProjects, noOfProjects } from "../pages/api/minhub";
 
 export function Step1({ formik, handleChange }) {
   return (
@@ -452,7 +453,7 @@ export function Step5({ setCurrentStep, nftAddress, formik }) {
       <div className="grid grid-cols-1 gap-y-4 lg:grid-cols-2 gap-4">
         <div className="mb-4 mt-11  ">
           <p className="text-sm text-slate-400 my-2 text-center">
-            Your contract on Sepolia Scan
+            Your contract on Fantom Scan
           </p>
           <div className="text-center flex items-center justify-center">
             <Link
@@ -466,7 +467,7 @@ export function Step5({ setCurrentStep, nftAddress, formik }) {
                 className="shadow-md active:bg-white active:text-gray-800 hover:bg-slate-200 hover:text-slate-400 appearance-none border w-96 ml-9 mt-4 rounded py-3 px-3 font-semibold text-slate-200 leading-tight  hover:shadow-outline active:shadow-lg"
                 disabled={formik.isSubmitting}
               >
-                Sepolia Scan
+                Fantom Scan
               </a>
             </Link>
           </div>
@@ -515,7 +516,7 @@ export function Step6({ metadata, token, name, nftAddress, formik }) {
             </h3>
             <a
               target="_blank"
-              href={`https://testnet.ftmscan.com/address/${nftAddress}`}
+              href={`https://sepolia.scrollscan.dev/address/${nftAddress}`}
               className="text-sm text-slate-50 my-2 mx-3 text-left hover:underline hover:text-blue-600 "
             >
               {nftAddress}

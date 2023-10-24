@@ -14,6 +14,8 @@ import { NFTStorage, File } from "nft.storage";
 import { useRouter } from "next/router";
 import * as yup from "yup";
 import { ContractFactory, ethers } from "ethers";
+import nft from "../../utils/MinHub.json";
+import { addProject} from "../api/minhub";
 
 const features = {
   categories: [
@@ -100,7 +102,6 @@ const Form = () => {
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       try {
         const addProjects = addProject;
-        // const viewProject = viewProjects
         const NFT_STORAGE_TOKEN =
           "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDdjMTVkRTM4NUU0Mzc1M0RBODNGZUE0NjgzZkZhMzc4RTFjZTUyZjEiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTY2ODk3NjUxMTc3NCwibmFtZSI6IkRvY1QifQ.t7bF1OuxuS6S9QMP_rfl72fYMneOa1jzs-mZhdjEhog";
         const client = new NFTStorage({ token: NFT_STORAGE_TOKEN });
@@ -118,11 +119,42 @@ const Form = () => {
           token: values.token,
           image: imageFile,
         });
+        console.log(metadata.url)
 
         
         if (window.ethereum) {
           try {
+            // deploying
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            const signer = provider.getSigner();
+            console.log(signer);
+            //import nft from "./utils/MinHub.json";
+            const minHubContract = new ethers.ContractFactory(
+              nft.abi,
+              nft.object,
+              signer
+            );
+            // console.log("Created Contract");
+            const minHub = await minHubContract.deploy(
+              name,
+              token,
+              metadata.url,
+              metadata.url
+            );
+
+            // console.log("Awaiting deploy");
+            await minHub.deployed();
+            // console.log("Deployed");
+            // console.log(minHub.address);
             setNftAddress(minHub.address);
+            await addProjects(
+              metadata.data.name,
+              metadata.data.token,
+              1,
+              minHub.address,
+              metadata.data.image.href
+            );
+            // console.log("Added");
           } catch (err) {
             console.log(err);
           }
@@ -150,6 +182,15 @@ const Form = () => {
     const { value } = event.target;
     formik.setFieldValue("token", value.toUpperCase());
   };
+  // const handleChange = (event) => {
+  //   const fileList = event.target.files;
+  //   const images = [];
+  //   for (let i = 0; i < fileList.length; i++) {
+  //     images.push(fileList[i]);
+  //   }
+  //   setImages(images);
+  //   formik.setFieldValue("images", images);
+  // };
 
   return (
     <div className="bg-gray-900 h-screen w-screen">

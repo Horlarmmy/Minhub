@@ -13,10 +13,23 @@ export default function started() {
     try {
       await window.ethereum.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x1' }],
+        params: [{ chainId: '0x8274f' }],
       })
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
+        params: [
+          {
+            chainId: "0x8274f",
+            chainName: "Scroll Sepolia Testnet",
+            rpcUrls: ["https://scroll-sepolia.blockpi.network/v1/rpc/public"],
+            blockExplorerUrls: ["https://sepolia.scrollscan.dev"],
+            nativeCurrency: {
+              name: "",
+              symbol: "ETH",
+              decimals: 18,
+            },
+          },
+        ],
       });
       setIsConnected(true);
       const account = await accounts[0];
@@ -26,8 +39,20 @@ export default function started() {
     } catch (switchError) {
       if (switchError.code === 4902) {
         try {
-            await provider.request({
+            await window.ethereum.request({
                 method: 'wallet_addEthereumChain',
+                params: [
+                    {
+                        chainId: '0x8274f',
+                        chainName: 'Scroll Sepolia Testnet',
+                        nativeCurrency: {
+                            name: 'ETH',
+                            symbol: 'ETH',
+                            decimals: 18,
+                        },
+                        rpcUrls: ['https://scroll-sepolia.blockpi.network/v1/rpc/public'],
+                    },
+                ],
             });
         } catch (addError) {
             // handle "add" error

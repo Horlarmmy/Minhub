@@ -1,18 +1,19 @@
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
+import { viewProject, mintNFT } from "../api/minhub";
 
 const project = () => {
   const [projects, setProjects] = useState([]);
 
 
-  // const fetchProject = async () => {
-  //   const project = await viewProject();
-  //   setProjects(project);
-  // };
+  const fetchProject = async () => {
+    const project = await viewProject();
+    setProjects(project);
+  };
 
   useEffect(() => {
-    //fetchProject();
+    fetchProject();
   }, []);
 
   return (

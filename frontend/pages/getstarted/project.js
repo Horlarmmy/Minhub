@@ -9,6 +9,7 @@ const project = () => {
 
   const fetchProject = async () => {
     const project = await viewProject();
+    console.log(project);
     setProjects(project);
   };
 
@@ -60,12 +61,12 @@ const project = () => {
                     alt={project.name}
                   />
                   <div className="p-4">
-                    <div className="text-xl font-medium">
+                    <div className="text-xl font-medium text-black">
                       {project.name ? project.name : "Not Available"}
                     </div>
-                    <div className="text-xs font-normal">
+                    <div className="text-xs font-normal text-black">
                       <a
-                        href={`${project.nftAddress}`}
+                        href={`https://sepolia.scrollscan.dev/address/${project.nftAddress}`}
                         target="_blank"
                         className="hover:underline transition duration-100 ease-out"
                       >
@@ -82,9 +83,16 @@ const project = () => {
                     </div>
                     <div className="text-center  justify-start">
                       <button
+                        onClick={() => mintNFT(project.nftAddress)}
                         className="text-md bg-green-400 text-black  p-5 my-2 shadow-md appearance-none border w-32 mt-4 rounded-md py-3 px-3 font-semibold active:bg-black active:text-white hover:bg-green-300 transition duration-200 ease-in  leading-tight  hover:shadow-outline active:shadow-lg"
                       >
                         Mint
+                      </button>
+                      <button
+                        onClick={() => mintNFT(project.nftAddress)}
+                        className="text-md bg-green-400 text-black  p-5 my-2 shadow-md appearance-none border w-32 mt-4 rounded-md py-3 px-3 font-semibold active:bg-black active:text-white hover:bg-green-300 transition duration-200 ease-in  leading-tight  hover:shadow-outline active:shadow-lg"
+                      >
+                        Mintty
                       </button>
                     </div>
                   </div>

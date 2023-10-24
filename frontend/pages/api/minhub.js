@@ -9,7 +9,7 @@ const abi = [
   "function noOfProjects() public view returns(uint)",
 ];
 
-const contractAddr = "0x1f8854185f46B643544f0dCA3355Cc30212Ec48E";
+const contractAddr = "0xE22953F947490a6e4930ef5359Ea3c357aB01623";
 
 const getContract = async () => {
   if (window.ethereum) {
@@ -45,7 +45,7 @@ export async function addProject(name, symbol, price, projectAddr, uri) {
     price,
     projectAddr,
     uri,
-    { value: 10000000000000000000n }
+    { value: 10000000000000000n }
   );
   await tx.wait();
 }
@@ -66,7 +66,7 @@ export async function mintNFT(projectAddr) {
     const provider = new ethers.providers.Web3Provider(window.ethereum); // A connection to the Ethereum network
     var signer = await provider.getSigner(); // Holds your private key and can sign things
     const pContract = new ethers.Contract(projectAddr, nft.abi, signer);
-    const mintTX = await pContract.mint(1, { value: 100000000000000000n });
+    const mintTX = await pContract.mint(1, { value: 10000000000000000n });
     await mintTX.wait();
   } catch (error) {
     console.log(error);
